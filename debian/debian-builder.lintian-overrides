@@ -1,0 +1,8 @@
+debian-builder: binary-without-manpage usr/bin/debian-builder
+debian-builder: script-not-executable ./usr/lib/debian-builder/templates/package.init.lsb.d
+debian-builder: shell-script-fails-syntax-check ./usr/lib/debian-builder/templates/package.postinst
+debian-builder: script-not-executable ./usr/lib/debian-builder/templates/package.preinst
+debian-builder: script-not-executable ./usr/lib/debian-builder/templates/package.prerm
+debian-builder: missing-dep-for-interpreter make => make | build-essential (./usr/lib/debian-builder/templates/rules)
+debian-builder: new-package-should-close-itp-bug
+debian-builder: maintainer-address-malformed Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
