@@ -1,0 +1,2 @@
+deb-git-pkg  usr/bin
+templates       usr/lib/deb-git-pkg
