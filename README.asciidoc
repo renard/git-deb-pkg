@@ -1,0 +1,156 @@
+= debian-builder(1) =
+
+== NAME ==
+
+deb-git-pkg - lazy way to build Debian package using git
+
+== SYNOPSIS ==
+
+deb-git-pkg [ options ] [ commands ]
+
+== DESCRIPTION ==
+
++deb-git-pkg+ offers a simple and easy way to manage Debian package
+generation using git (and other source code management system).
+
+Both upstream and Debian code are kept in separated branches.
+
+Features:
+
+  - Update upstream from any SCM which git is capable of.
+  - Checkout any file from any branch.
+  - Cherry pick any commit
+  - Few files to edit
+
+== OPTIONS ==
+
+=== general options ===
+
+-c CONF|--config CONF::
+
+    The configuration file to be used (default: '~/.deb-git-pkg/config').
+
+-i CONF|--deb-config CONF::
+
+    The debian configuration file to be used (default:
+    'build-debian.conf'). This file is extracted from the the *debian*
+    branch).
+
+-t DIR|--templates-dir DIR::
+
+    Directory where the +debhelper+ files reside (default:
+    '/var/lib/deb-git-pkg/templates').
+
+-h|--help::
+
+    Shows help screen.
+
+=== git options ===
+
+-u BRANCH|--upstream-branch BRANCH::
+
+    Upstream branch (default: 'master').
+
+-d BRANCH|--debian-branch BRANCH::
+
+    Debian branch (default: 'debian').
+
+-U|--no-upstream-update::
+
+    Do not update upstream branch.
+
+-C|--no-changelog-update::
+
+    Do not update debian changelog.
+
+== COMMANDS ==
+
+init-debian::
+
+    Init debian directory.
+
+commit-debian::
+
+    Commit the debian directory.
+
+build::
+
+    Build debian package.
+
+show-version::
+
+    Show all versions for the package.
+
+
+update-upstream::
+
+    Update upstream branch.
+
+prepare::
+
+    Prepare building environment.
+
+prepare-orig::
+
+    Prepare upstream orig archive.
+
+== HOW TO USE ==
+
+=== Clone remote directory ===
+
+First of all the upstream repository should be cloned the repository from a
+remote source. Depending on the remote used SCM the commands may differ.
+
+git::
+
+  git clone -o git-project git://remote.host/path/to/repository
+
+svn::
+
+  git svn -i svn-projet -R projet clone http://remote.host/path/to/repository
+
+cvs::
+
+  git cvsimport -d:pserver:anonymous@remote.host/path/to/repository -r
+  master -o master -a -C . -v module
+
+=== Create the './debian' directory ===
+
+This is where the magic starts. +deb-git-pkg+ helps a lot for that part:
+
+  deb-git-pkg init-debian
+
+Then a few files in the './debian' directory have to be updated, and commited
+
+  deb-git-pkg commit-debian
+
+=== build the package ===
+
+To build the package from any branch, just type:
+
+  deb-git-pkg build
+
+== SEE ALSO ==
+
+- +git+ manpages.
+- +debhelper+ manpages.
+
+== HISTORY ==
+
+2010/09/23::
+
+  Initial release.
+
+== BUGS ==
+
+No time to include bugs, command actions might seldom lead astray user's
+assumption.
+
+== AUTHORS ==
+
++deb-git-pkg+ is written by Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>.
+
+== COPYRIGHT ==
+
+Copyright © 2010 Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>.
+Relased under WTFPL (http://sam.zoy.org/wtfpl/COPYING[]).

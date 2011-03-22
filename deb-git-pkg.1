@@ -1,0 +1,273 @@
+'\" t
+.\"     Title: debian-builder
+.\"    Author: [see the "AUTHORS" section]
+.\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
+.\"      Date: 09/23/2010
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "DEBIAN\-BUILDER" "1" "09/23/2010" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+debian-builder \- lazy way to build Debian package using git
+.SH "SYNOPSIS"
+.sp
+debian\-builder [ options ] [ commands ]
+.SH "DESCRIPTION"
+.sp
+debian\-builder offers a simple and easy way to manage Debian package generation using git (and other source code management system)\&.
+.sp
+Both upstream and Debian code are kept in separated branches\&.
+.sp
+Features:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Update upstream from any SCM which git is capable of\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Checkout any file from any branch\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Cherry pick any commit
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Few files to edit
+.RE
+.SH "OPTIONS"
+.SS "general options"
+.PP
+\-c CONF|\-\-config CONF
+.RS 4
+The configuration file to be used (default:
+\fI~/\&.debian\-builder/config\fR)\&.
+.RE
+.PP
+\-i CONF|\-\-deb\-config CONF
+.RS 4
+The debian configuration file to be used (default:
+\fIbuild\-debian\&.conf\fR)\&. This file is extracted from the the
+\fBdebian\fR
+branch)\&.
+.RE
+.PP
+\-t DIR|\-\-templates\-dir DIR
+.RS 4
+Directory where the
+debhelper
+files reside (default:
+\fI/var/lib/debian\-builder/templates\fR)\&.
+.RE
+.PP
+\-h|\-\-help
+.RS 4
+Shows help screen\&.
+.RE
+.SS "git options"
+.PP
+\-u BRANCH|\-\-upstream\-branch BRANCH
+.RS 4
+Upstream branch (default:
+\fImaster\fR)\&.
+.RE
+.PP
+\-d BRANCH|\-\-debian\-branch BRANCH
+.RS 4
+Debian branch (default:
+\fIdebian\fR)\&.
+.RE
+.PP
+\-U|\-\-no\-upstream\-update
+.RS 4
+Do not update upstream branch\&.
+.RE
+.PP
+\-C|\-\-no\-changelog\-update
+.RS 4
+Do not update debian changelog\&.
+.RE
+.SH "COMMANDS"
+.PP
+init\-debian
+.RS 4
+Init debian directory\&.
+.RE
+.PP
+commit\-debian
+.RS 4
+Commit the debian directory\&.
+.RE
+.PP
+build
+.RS 4
+Build debian package\&.
+.RE
+.PP
+show\-version
+.RS 4
+Show all versions for the package\&.
+.RE
+.PP
+update\-upstream
+.RS 4
+Update upstream branch\&.
+.RE
+.PP
+prepare
+.RS 4
+Prepare building environment\&.
+.RE
+.PP
+prepare\-orig
+.RS 4
+Prepare upstream orig archive\&.
+.RE
+.SH "HOW TO USE"
+.SS "Clone remote directory"
+.sp
+First of all the upstream repository should be cloned the repository from a remote source\&. Depending on the remote used SCM the commands may differ\&.
+.PP
+git
+.RS 4
+git clone \-o git\-project git://remote\&.host/path/to/repository
+.RE
+.PP
+svn
+.RS 4
+git svn \-i svn\-projet \-R projet clone
+\m[blue]\fBhttp://remote\&.host/path/to/repository\fR\m[]
+.RE
+.PP
+cvs
+.RS 4
+git cvsimport \-d:pserver:anonymous@remote\&.host/path/to/repository \-r master \-o master \-a \-C \&. \-v module
+.RE
+.SS "Create the \fI\&./debian\fR directory"
+.sp
+This is where the magic starts\&. debian\-builder helps a lot for that part:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+debian\-builder init\-debian
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Then a few files in the \fI\&./debian\fR directory have to be updated, and commited
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+debian\-builder commit\-debian
+.fi
+.if n \{\
+.RE
+.\}
+.SS "build the package"
+.sp
+To build the package from any branch, just type:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+debian\-builder build
+.fi
+.if n \{\
+.RE
+.\}
+.SH "SEE ALSO"
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+
+git
+manpages\&.
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+
+debhelper
+manpages\&.
+.RE
+.SH "HISTORY"
+.PP
+2010/09/23
+.RS 4
+Initial release\&.
+.RE
+.SH "BUGS"
+.sp
+No time to include bugs, command actions might seldom lead astray user\(cqs assumption\&.
+.SH "AUTHORS"
+.sp
+debian\-builder is written by S\('ebastien Gross <seb\(buɑƬ\(buchezwam\(buɖɵʈ\(buorg>\&.
+.SH "COPYRIGHT"
+.sp
+Copyright \(co 2010 S\('ebastien Gross <seb\(buɑƬ\(buchezwam\(buɖɵʈ\(buorg>\&. Relased under WTFPL (\m[blue]\fBhttp://sam\&.zoy\&.org/wtfpl/COPYING\fR\m[])\&.
