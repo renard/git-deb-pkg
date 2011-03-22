@@ -1,16 +1,16 @@
-= deb-git-pkg(1) =
+= git-deb-pkg(1) =
 
 == NAME ==
 
-deb-git-pkg - lazy way to build Debian package using git.
+git-deb-pkg - lazy way to build Debian package using git.
 
 == SYNOPSIS ==
 
-deb-git-pkg [ options ] [ commands ]
+git-deb-pkg [ options ] [ commands ]
 
 == DESCRIPTION ==
 
-+deb-git-pkg+ offers a simple and easy way to manage Debian package
++git-deb-pkg+ offers a simple and easy way to manage Debian package
 generation using git (and other source code management system).
 
 Both upstream and Debian code are kept in separated branches.
@@ -28,18 +28,18 @@ Features:
 
 -c CONF|--config CONF::
 
-    The configuration file to be used (default: '~/.deb-git-pkg/config').
+    The configuration file to be used (default: '~/.git-deb-pkg/config').
 
 -i CONF|--deb-config CONF::
 
     The debian configuration file to be used (default:
-    'build-debian.conf'). This file is extracted from the the *debian*
+    'git-deb-pkg.conf'). This file is extracted from the the *debian*
     branch).
 
 -t DIR|--templates-dir DIR::
 
     Directory where the +debhelper+ files reside (default:
-    '/var/lib/deb-git-pkg/templates').
+    '/var/lib/git-deb-pkg/templates').
 
 -h|--help::
 
@@ -96,9 +96,9 @@ prepare-orig::
 
 == HOW TO USE ==
 
-=== Configure deb-git-pkg ===
+=== Configure git-deb-pkg ===
 
-In file '~/.deb-git-pkg/config' both +DEBFULLNAME+ and +DEBEMAIL+ debian
+In file '~/.git-deb-pkg/config' both +DEBFULLNAME+ and +DEBEMAIL+ debian
 variables could be defined such as:
 
 ----
@@ -125,7 +125,9 @@ git checkout master
 ==== svn ====
 
 ----
-git svn -i svn-projet -R projet clone http://remote.host/path/to/repository
+mkdir git-project
+cd git-project
+git svn -i upstream clone clone http://remote.host/path/to/repository .
 ----
 
 ==== cvs ====
@@ -136,10 +138,10 @@ git cvsimport -d:pserver:anonymous@remote.host/path/to/repository \
 ----
 === Create the './debian' directory ===
 
-This is where the magic starts. +deb-git-pkg+ helps a lot for that part:
+This is where the magic starts. +git-deb-pkg+ helps a lot for that part:
 
 ----
-deb-git-pkg init-debian
+git-deb-pkg init-debian
 ----
 
 Package could be built using +debuild+ command:
@@ -152,7 +154,7 @@ Then a few files in the './debian' directory have to be updated, and commited:
 
 ----
 debuild clean
-deb-git-pkg commit-debian
+git-deb-pkg commit-debian
 ----
 
 === build the package ===
@@ -160,7 +162,7 @@ deb-git-pkg commit-debian
 To build the package from any branch, just type:
 
 ----
-deb-git-pkg build
+git-deb-pkg build
 ----
 
 === publish package ===
@@ -172,6 +174,20 @@ git remote add origin user@git.example.com:/path/to/repository.git
 git push -u origin master
 ----
 
+=== keep package uptodate ===
+
+==== git ====
+git 
+
+==== svn ====
+
+----
+git checkout master
+git svn fetch
+git merge upstream
+----
+
+
 == SEE ALSO ==
 
 - +git+ manpages.
@@ -181,7 +197,7 @@ git push -u origin master
 
 2011/03/22::
 
-  Change name from +debian-builder+ to +deb-git-pkg+ due to name clash.
+  Change name from +debian-builder+ to +git-deb-pkg+ due to name clash.
 
 2010/09/23::
 
@@ -194,7 +210,7 @@ assumption.
 
 == AUTHORS ==
 
-+deb-git-pkg+ is written by Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>.
++git-deb-pkg+ is written by Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>.
 
 == COPYRIGHT ==
 
