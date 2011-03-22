@@ -1,2 +1,2 @@
-deb-git-pkg source: maintainer-address-malformed Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-deb-git-pkg source: native-package-with-dash-version
+git-deb-pkg source: maintainer-address-malformed Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
+git-deb-pkg source: native-package-with-dash-version

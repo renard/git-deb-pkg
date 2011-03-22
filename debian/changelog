@@ -1,4 +1,4 @@
-deb-git-pkg (1.0-1) unstable; urgency=low
+git-deb-pkg (1.0-1) unstable; urgency=low
 
   * Initial release.
 

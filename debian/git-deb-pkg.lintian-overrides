@@ -1,0 +1,8 @@
+git-deb-pkg: binary-without-manpage usr/bin/git-deb-pkg
+git-deb-pkg: script-not-executable ./usr/lib/git-deb-pkg/templates/package.init.lsb.d
+git-deb-pkg: shell-script-fails-syntax-check ./usr/lib/git-deb-pkg/templates/package.postinst
+git-deb-pkg: script-not-executable ./usr/lib/git-deb-pkg/templates/package.preinst
+git-deb-pkg: script-not-executable ./usr/lib/git-deb-pkg/templates/package.prerm
+git-deb-pkg: missing-dep-for-interpreter make => make | build-essential (./usr/lib/git-deb-pkg/templates/rules)
+git-deb-pkg: new-package-should-close-itp-bug
+git-deb-pkg: maintainer-address-malformed Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>

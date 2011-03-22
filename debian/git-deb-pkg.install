@@ -1,0 +1,2 @@
+git-deb-pkg	usr/lib/git-core
+templates       usr/lib/git-deb-pkg

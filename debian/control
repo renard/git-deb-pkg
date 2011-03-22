@@ -1,17 +1,17 @@
-Source: deb-git-pkg
+Source: git-deb-pkg
 Section: devel
 Priority: extra
 Maintainer: Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
 Build-Depends: debhelper (>= 7.0.50)
 Standards-Version: 3.8.0
-Homepage: http://github.com/renard/deb-git-pkg
+Homepage: http://github.com/renard/git-deb-pkg
 
-Package: deb-git-pkg
+Package: git-deb-pkg
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}, git-core,
 	 dh-make, devscripts
 Description: lazy way to build Debian package using git
- deb-git-pkg offers a simple and easy way to manage Debian package
+ git-deb-pkg offers a simple and easy way to manage Debian package
  generation using git (and other source code management system).
  .
  Both upstream and Debian code are kept in separated branches.
