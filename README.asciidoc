@@ -1,8 +1,8 @@
-= debian-builder(1) =
+= deb-git-pkg(1) =
 
 == NAME ==
 
-deb-git-pkg - lazy way to build Debian package using git
+deb-git-pkg - lazy way to build Debian package using git.
 
 == SYNOPSIS ==
 
@@ -49,7 +49,7 @@ Features:
 
 -u BRANCH|--upstream-branch BRANCH::
 
-    Upstream branch (default: 'master').
+    Upstream branch (default: 'upstream').
 
 -d BRANCH|--debian-branch BRANCH::
 
@@ -96,39 +96,81 @@ prepare-orig::
 
 == HOW TO USE ==
 
+=== Configure deb-git-pkg ===
+
+In file '~/.deb-git-pkg/config' both +DEBFULLNAME+ and +DEBEMAIL+ debian
+variables could be defined such as:
+
+----
+DEBFULLNAME="John Doo"
+DEBEMAIL="jdoo@example.com"
+----
+
 === Clone remote directory ===
 
 First of all the upstream repository should be cloned the repository from a
 remote source. Depending on the remote used SCM the commands may differ.
 
-git::
+==== git ====
 
-  git clone -o git-project git://remote.host/path/to/repository
+----
+mkdir git-project
+cd git-project
+git remote add upstream git://remote.host/path/to/repository
+git fetch --all
+git checkout -b upstream upstream/master
+git checkout master
+----
+  
+==== svn ====
 
-svn::
+----
+git svn -i svn-projet -R projet clone http://remote.host/path/to/repository
+----
 
-  git svn -i svn-projet -R projet clone http://remote.host/path/to/repository
+==== cvs ====
 
-cvs::
-
-  git cvsimport -d:pserver:anonymous@remote.host/path/to/repository -r
-  master -o master -a -C . -v module
-
+----
+git cvsimport -d:pserver:anonymous@remote.host/path/to/repository \
+    -r master -o master -a -C . -v module
+----
 === Create the './debian' directory ===
 
 This is where the magic starts. +deb-git-pkg+ helps a lot for that part:
 
-  deb-git-pkg init-debian
+----
+deb-git-pkg init-debian
+----
 
-Then a few files in the './debian' directory have to be updated, and commited
+Package could be built using +debuild+ command:
 
-  deb-git-pkg commit-debian
+----
+debuild -nc
+----
+
+Then a few files in the './debian' directory have to be updated, and commited:
+
+----
+debuild clean
+deb-git-pkg commit-debian
+----
 
 === build the package ===
 
 To build the package from any branch, just type:
 
-  deb-git-pkg build
+----
+deb-git-pkg build
+----
+
+=== publish package ===
+
+This step is not mandatory unless you wish to publish your work:
+
+----
+git remote add origin user@git.example.com:/path/to/repository.git
+git push -u origin master
+----
 
 == SEE ALSO ==
 
@@ -136,6 +178,10 @@ To build the package from any branch, just type:
 - +debhelper+ manpages.
 
 == HISTORY ==
+
+2011/03/22::
+
+  Change name from +debian-builder+ to +deb-git-pkg+ due to name clash.
 
 2010/09/23::
 
