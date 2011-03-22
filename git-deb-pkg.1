@@ -31,10 +31,10 @@
 git-deb-pkg \- lazy way to build Debian package using git\&.
 .SH "SYNOPSIS"
 .sp
-git\-deb\-pkg [ options ] [ commands ]
+git deb\-pkg [ options ] [ commands ]
 .SH "DESCRIPTION"
 .sp
-git\-deb\-pkg offers a simple and easy way to manage Debian package generation using git (and other source code management system)\&.
+git deb\-pkg offers a simple and easy way to manage Debian package generation using git (and other source code management system)\&.
 .sp
 Both upstream and Debian code are kept in separated branches\&.
 .sp
@@ -172,7 +172,7 @@ prepare\-orig
 Prepare upstream orig archive\&.
 .RE
 .SH "HOW TO USE"
-.SS "Configure git\-deb\-pkg"
+.SS "Configure git deb\-pkg"
 .sp
 In file \fI~/\&.git\-deb\-pkg/config\fR both DEBFULLNAME and DEBEMAIL debian variables could be defined such as:
 .sp
@@ -256,13 +256,13 @@ git cvsimport \-d:pserver:anonymous@remote\&.host/path/to/repository \e
 .RE
 .SS "Create the \fI\&./debian\fR directory"
 .sp
-This is where the magic starts\&. git\-deb\-pkg helps a lot for that part:
+This is where the magic starts\&. git deb\-pkg helps a lot for that part:
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-git\-deb\-pkg init\-debian
+git deb\-pkg init\-debian
 .fi
 .if n \{\
 .RE
@@ -287,7 +287,7 @@ Then a few files in the \fI\&./debian\fR directory have to be updated, and commi
 .\}
 .nf
 debuild clean
-git\-deb\-pkg commit\-debian
+git deb\-pkg commit\-debian
 .fi
 .if n \{\
 .RE
@@ -300,7 +300,7 @@ To build the package from any branch, just type:
 .RS 4
 .\}
 .nf
-git\-deb\-pkg build
+git deb\-pkg build
 .fi
 .if n \{\
 .RE
@@ -319,7 +319,7 @@ git push \-u origin master
 .if n \{\
 .RE
 .\}
-.SS "keep package uptodate"
+.SS "keep package up to date"
 .sp
 .it 1 an-trap
 .nr an-no-space-flag 1
@@ -329,7 +329,17 @@ git push \-u origin master
 \fBgit\fR
 .RS 4
 .sp
-git
+.if n \{\
+.RS 4
+.\}
+.nf
+git checkout master
+git fetch \-a
+git merge upstream
+.fi
+.if n \{\
+.RE
+.\}
 .RE
 .sp
 .it 1 an-trap
@@ -387,7 +397,7 @@ Change name from
 debian\-builder
 to
 git\-deb\-pkg
-due to name clash\&.
+to git git tool suite\&.
 .RE
 .PP
 2010/09/23

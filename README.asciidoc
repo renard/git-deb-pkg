@@ -6,11 +6,11 @@ git-deb-pkg - lazy way to build Debian package using git.
 
 == SYNOPSIS ==
 
-git-deb-pkg [ options ] [ commands ]
+git deb-pkg [ options ] [ commands ]
 
 == DESCRIPTION ==
 
-+git-deb-pkg+ offers a simple and easy way to manage Debian package
++git deb-pkg+ offers a simple and easy way to manage Debian package
 generation using git (and other source code management system).
 
 Both upstream and Debian code are kept in separated branches.
@@ -96,7 +96,7 @@ prepare-orig::
 
 == HOW TO USE ==
 
-=== Configure git-deb-pkg ===
+=== Configure git deb-pkg ===
 
 In file '~/.git-deb-pkg/config' both +DEBFULLNAME+ and +DEBEMAIL+ debian
 variables could be defined such as:
@@ -138,10 +138,10 @@ git cvsimport -d:pserver:anonymous@remote.host/path/to/repository \
 ----
 === Create the './debian' directory ===
 
-This is where the magic starts. +git-deb-pkg+ helps a lot for that part:
+This is where the magic starts. +git deb-pkg+ helps a lot for that part:
 
 ----
-git-deb-pkg init-debian
+git deb-pkg init-debian
 ----
 
 Package could be built using +debuild+ command:
@@ -154,7 +154,7 @@ Then a few files in the './debian' directory have to be updated, and commited:
 
 ----
 debuild clean
-git-deb-pkg commit-debian
+git deb-pkg commit-debian
 ----
 
 === build the package ===
@@ -162,7 +162,7 @@ git-deb-pkg commit-debian
 To build the package from any branch, just type:
 
 ----
-git-deb-pkg build
+git deb-pkg build
 ----
 
 === publish package ===
@@ -174,10 +174,15 @@ git remote add origin user@git.example.com:/path/to/repository.git
 git push -u origin master
 ----
 
-=== keep package uptodate ===
+=== keep package up to date ===
 
 ==== git ====
-git 
+
+----
+git checkout master
+git fetch -a
+git merge upstream
+----
 
 ==== svn ====
 
@@ -197,7 +202,7 @@ git merge upstream
 
 2011/03/22::
 
-  Change name from +debian-builder+ to +git-deb-pkg+ due to name clash.
+  Change name from +debian-builder+ to +git-deb-pkg+ to git git tool suite.
 
 2010/09/23::
 
