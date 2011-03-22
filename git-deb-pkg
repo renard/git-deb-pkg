@@ -2,7 +2,7 @@
 
 # git-deb-pkg --- 
 # Copyright © 2010 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2011-03-22 21:59:42
+# Last changed: 2011-03-22 22:41:50
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -552,7 +552,7 @@ if test -z "${command}"; then
 fi
 
 stash_current
-git branch | grep '^\*\? debian$' 2>&1 >/dev/null
+git branch | grep "^\( \|\*\) ${debian_branch}\$" 2>&1 >/dev/null
 if test $? -eq 0; then
     # This is always done, so even if no configuration file is found the script can go on
     eval "$(git cat-file blob $(git ls-tree $(git rev-parse ${debian_branch}) ${deb_config} | awk '{print $3}'))" 2>&1 > /dev/null
