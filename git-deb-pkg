@@ -2,7 +2,7 @@
 
 # git-deb-pkg --- 
 # Copyright © 2010 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2011-03-23 10:52:35
+# Last changed: 2011-03-23 11:27:40
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -357,7 +357,7 @@ function cmd_prepare() {
     git checkout ${debian_branch} -- ./debian
 
     # Add all other required checkouts
-    for c in ${checkout[@]}; do
+    for c in $(git config --get deb-pkg.checkout); do
 	b=$(echo ${c} | sed -n 's/^\([^:]\+\)\(:\(.*\)\)\?$/\1/p')
 	f=$(echo ${c} | sed -n 's/^\([^:]\+\)\(:\(.*\)\)\?$/\3/;
              s/,/ .\//g;s/^/.\//p')
@@ -366,7 +366,7 @@ function cmd_prepare() {
     done
 
     # Cherry pick some commits
-    for c in ${cherrypick[@]}; do
+    for c in $(git config --get deb-pkg.cherrypick); do
 	_msg "Cherry picking ${c}"
 	git cherry-pick -n ${c}
     done
