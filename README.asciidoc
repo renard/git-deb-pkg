@@ -217,6 +217,10 @@ git merge upstream
 
 == HISTORY ==
 
+2011/03/23::
+
+  Use git configuration file for options.
+
 2011/03/22::
 
   Change name from +debian-builder+ to +git-deb-pkg+ to git git tool suite.
