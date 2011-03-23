@@ -2,7 +2,7 @@
 
 # git-deb-pkg --- 
 # Copyright © 2010 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2011-03-22 22:41:50
+# Last changed: 2011-03-23 10:52:35
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -13,20 +13,20 @@
 VERSION="1.1"
 
 verbose=
-config=~/.git-deb-pkg/config
-deb_config=git-deb-pkg.conf
-
-templates_dir=/usr/lib/git-deb-pkg/templates
 
 upstream_update=1
 changelog_update=1
 
-upstream_branch=upstream
-debian_branch=debian
-revision_scheme='s/^v\(.\+\)$/\1/;s/[-]/./g'
+# git variables
+upstream_branch=$(git config --get deb-pkg.upstream || echo -n "upstream")
+debian_branch=$(git config --get deb-pkg.debian || echo -n "debian")
+revision_scheme=$(git config --get deb-pkg.revision-scheme || echo -n 's/^v\(.\+\)$/\1/;s/[-]/./g')
+templates_dir=$(git config --get deb-pkg.templates-dir || echo -n "/usr/lib/git-deb-pkg/templates")
+scm=$(git config --get deb-pkg.scm || echo -n "git")
 
-# Global variables
-scm=git
+# debian variables
+DEBFULLNAME="$(git config --get user.name)"
+DEBEMAIL="$(git config --get user.email)"
 
 build_branch=build-$$
 stash=stash-before-${build_branch}
@@ -184,35 +184,11 @@ function cmd_init_debian() {
     mv "../${src}-${ver}" "../${src}"
     cd "../${src}"
 
-    cat<<EOF > "${deb_config}"
-#
-# Configuration file to build debian packages from SCM sources using git
-#
-
-# scm used for remote repository
-scm=${scm}
-
-# remote branch to use as upstream
-upstream_branch=${upstream_branch}
-
-# branch used for debian scripts
-debian_branch=${debian_branch}
-
-# files to checkout
-# syntax is: branch[:file[,dir??]]
-#checkout=()
-
-# Special commits to cherry pick
-# just put commit id
-#cherrypick=()
-
-# Regexp to extract version number from git-describe
-# Note the git patchlevel: -PL-gTREEISH is cut off 
-# before the regexp is applyed
-revision_scheme=${revision_scheme}
-
-EOF
-
+    # Store some git variables
+    git config --get deb-pkg.scm 2>&1 >/dev/null && git config --add deb-pkg.scm ${scm}
+    git config --get deb-pkg.upstream 2>&1 >/dev/null && git config --add deb-pkg.upstream ${upstream_branch}
+    git config --get deb-pkg.debian 2>&1 >/dev/null && git config --add deb-pkg.debian ${debian_branch}
+    git config --get deb-pkg.revision-scheme 2>&1 >/dev/null && git config --add deb-pkg.revision-scheme ${revision_scheme}
 
     _msg "Debian environment prepared"
     cat<<EOF
@@ -241,18 +217,18 @@ function cmd_commit_debian() {
 	if test $? -eq 0; then
 	    die "${debian_branch} already exists."
 	fi
-	git add -- ./debian ${deb_config}
+	git add -- ./debian
 	git status
-	git commit -m "Add debian files." -- ./debian ${deb_config}
+	git commit -m "Add debian files." -- ./debian
 	git status
 	git symbolic-ref HEAD refs/heads/${debian_branch}
 	rm .git/index
 	git clean -fdx
-	git checkout "${debian_branch}-dev" -- ./debian ${deb_config}
+	git checkout "${debian_branch}-dev" -- ./debian
 	parse_debian_changelog
-	git add . -- ./debian ${deb_config}
+	git add . -- ./debian
 	git commit --author="${deb_maintainer} <${deb_email}>" \
-            -m "Add debian files." -- ./debian ${deb_config}
+            -m "Add debian files." -- ./debian
 	git branch -D "${debian_branch}-dev"
     fi
 }
@@ -465,10 +441,6 @@ $(basename $0) [ options ]
     
 Options:
 
-  -c|--config                CONF  The configuration file to be used 
-                                   (Default: ${config}).
-  -i|--deb-config            CONF  The debian configuration file to be
-                                   used (Default: ${deb_config}).
   -t|--templates-dir          DIR  Debian template directory to use
                                    (Default: ${templates_dir}).
   -q|--quite                       Run in verbose mode.
@@ -504,16 +476,6 @@ while test $# != 0 && test -z "${command}"; do
     case "$1" in
 	init-debian|build|commit-debian|show-version|update-upstream|prepare|prepare-orig)
 	    command=$1;;
-	-c|--config)
-	    test -z "$2" && die "Need a parameter for $1."
-	    config=$2
-	    shift
-	    ;;
-	-i|--deb-config)
-	    test -z "$2" && die "Need a parameter for $1."
-	    deb_config=$2
-	    shift
-	    ;;
 	-t|--templates-dir)
 	    test -z "$2" && die "Need a parameter for $1."
 	    templates_dir=$2
@@ -541,10 +503,6 @@ while test $# != 0 && test -z "${command}"; do
     shift
 done
 
-# source default configuration file
-if test -r ${config}; then
-    source "${config}"
-fi
 
 
 if test -z "${command}"; then
@@ -552,11 +510,6 @@ if test -z "${command}"; then
 fi
 
 stash_current
-git branch | grep "^\( \|\*\) ${debian_branch}\$" 2>&1 >/dev/null
-if test $? -eq 0; then
-    # This is always done, so even if no configuration file is found the script can go on
-    eval "$(git cat-file blob $(git ls-tree $(git rev-parse ${debian_branch}) ${deb_config} | awk '{print $3}'))" 2>&1 > /dev/null
-fi
 command=$(echo ${command} | sed 's/-/_/g')
 
 
