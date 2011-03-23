@@ -2,12 +2,12 @@
 .\"     Title: git-deb-pkg
 .\"    Author: [see the "AUTHORS" section]
 .\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
-.\"      Date: 03/22/2011
+.\"      Date: 03/23/2011
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "GIT\-DEB\-PKG" "1" "03/22/2011" "\ \&" "\ \&"
+.TH "GIT\-DEB\-PKG" "1" "03/23/2011" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -86,20 +86,6 @@ Few files to edit
 .SH "OPTIONS"
 .SS "general options"
 .PP
-\-c CONF|\-\-config CONF
-.RS 4
-The configuration file to be used (default:
-\fI~/\&.git\-deb\-pkg/config\fR)\&.
-.RE
-.PP
-\-i CONF|\-\-deb\-config CONF
-.RS 4
-The debian configuration file to be used (default:
-\fIgit\-deb\-pkg\&.conf\fR)\&. This file is extracted from the the
-\fBdebian\fR
-branch)\&.
-.RE
-.PP
 \-t DIR|\-\-templates\-dir DIR
 .RS 4
 Directory where the
@@ -171,21 +157,46 @@ prepare\-orig
 .RS 4
 Prepare upstream orig archive\&.
 .RE
-.SH "HOW TO USE"
-.SS "Configure git deb\-pkg"
+.SH "CONFIGURATION OPTIONS"
 .sp
-In file \fI~/\&.git\-deb\-pkg/config\fR both DEBFULLNAME and DEBEMAIL debian variables could be defined such as:
-.sp
-.if n \{\
+git\-deb\-pkg stores variables in git repository options\&.
+.SS "Variables"
+.PP
+deb\-pkg\&.scm
 .RS 4
-.\}
-.nf
-DEBFULLNAME="John Doo"
-DEBEMAIL="jdoo@example\&.com"
-.fi
-.if n \{\
+Specify the source code management system to use\&. Default: git\&.
 .RE
-.\}
+.PP
+deb\-pkg\&.upstream
+.RS 4
+Specify the branch to use as upstream code\&. Default: upstream\&.
+.RE
+.PP
+deb\-pkg\&.debian
+.RS 4
+Specify the branch to use for debian package definition\&. Default: debian\&.
+.RE
+.PP
+deb\-pkg\&.revision\-scheme
+.RS 4
+Regexp to extract version number from
+\fIgit describe\fR\&. The git patchlevel
+\fI\-PL\-gTREEISH\fR
+is cut off before the regexp is applied\&. Default:
+\fIs/^v\-\e(\&.\e+\e)$/\e1/;s/[\-]/\&./g\fR\&.
+.RE
+.PP
+deb\-pkg\&.cherrypick
+.RS 4
+Special commits to cherry pick\&. This option can occur many times\&. Order matters\&. Default: none\&.
+.RE
+.PP
+deb\-pkg\&.checkout
+.RS 4
+Extra branch, directories or files to checkout before building the package\&. This option can occur many times\&. Order matters\&. The syntax of each item is:
+\fIbranch[:directory or file]\fR\&. Default: none\&.
+.RE
+.SH "HOW TO USE"
 .SS "Clone remote directory"
 .sp
 First of all the upstream repository should be cloned the repository from a remote source\&. Depending on the remote used SCM the commands may differ\&.

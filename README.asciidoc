@@ -26,16 +26,6 @@ Features:
 
 === general options ===
 
--c CONF|--config CONF::
-
-    The configuration file to be used (default: '~/.git-deb-pkg/config').
-
--i CONF|--deb-config CONF::
-
-    The debian configuration file to be used (default:
-    'git-deb-pkg.conf'). This file is extracted from the the *debian*
-    branch).
-
 -t DIR|--templates-dir DIR::
 
     Directory where the +debhelper+ files reside (default:
@@ -94,17 +84,44 @@ prepare-orig::
 
     Prepare upstream orig archive.
 
+
+== CONFIGURATION OPTIONS ==
+
++git-deb-pkg+ stores variables in git repository options.
+
+=== Variables ===
+
+deb-pkg.scm::
+
+  Specify the source code management system to use. Default: git.
+
+deb-pkg.upstream::
+
+  Specify the branch to use as upstream code. Default: upstream.
+
+deb-pkg.debian::
+
+  Specify the branch to use for debian package definition. Default: debian.
+
+deb-pkg.revision-scheme::
+
+  Regexp to extract version number from 'git describe'. The git patchlevel
+  '-PL-gTREEISH' is cut off before the regexp is applied. Default:
+  's/^v-\(.\+\)$/\1/;s/[-]/./g'.
+
+deb-pkg.cherrypick::
+
+  Special commits to cherry pick. This option can occur many times. Order
+  matters. Default: none.
+
+deb-pkg.checkout::
+
+  Extra branch, directories or files to checkout before building the
+  package.  This option can occur many times. Order matters. The syntax of
+  each item is: 'branch[:directory or file]'. Default: none.
+
+
 == HOW TO USE ==
-
-=== Configure git deb-pkg ===
-
-In file '~/.git-deb-pkg/config' both +DEBFULLNAME+ and +DEBEMAIL+ debian
-variables could be defined such as:
-
-----
-DEBFULLNAME="John Doo"
-DEBEMAIL="jdoo@example.com"
-----
 
 === Clone remote directory ===
 
