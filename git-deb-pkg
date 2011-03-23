@@ -2,7 +2,7 @@
 
 # git-deb-pkg --- 
 # Copyright © 2010 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2011-03-23 11:27:40
+# Last changed: 2011-03-23 11:39:25
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -185,10 +185,10 @@ function cmd_init_debian() {
     cd "../${src}"
 
     # Store some git variables
-    git config --get deb-pkg.scm 2>&1 >/dev/null && git config --add deb-pkg.scm ${scm}
-    git config --get deb-pkg.upstream 2>&1 >/dev/null && git config --add deb-pkg.upstream ${upstream_branch}
-    git config --get deb-pkg.debian 2>&1 >/dev/null && git config --add deb-pkg.debian ${debian_branch}
-    git config --get deb-pkg.revision-scheme 2>&1 >/dev/null && git config --add deb-pkg.revision-scheme ${revision_scheme}
+    git config --get deb-pkg.scm 2>&1 >/dev/null || git config --add deb-pkg.scm ${scm}
+    git config --get deb-pkg.upstream 2>&1 >/dev/null || git config --add deb-pkg.upstream ${upstream_branch}
+    git config --get deb-pkg.debian 2>&1 >/dev/null || git config --add deb-pkg.debian ${debian_branch}
+    git config --get deb-pkg.revision-scheme 2>&1 >/dev/null || git config --add deb-pkg.revision-scheme ${revision_scheme}
 
     _msg "Debian environment prepared"
     cat<<EOF
