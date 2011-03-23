@@ -2,7 +2,7 @@
 
 # git-deb-pkg --- 
 # Copyright © 2010 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2011-03-23 11:39:25
+# Last changed: 2011-03-23 12:00:37
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -226,7 +226,7 @@ function cmd_commit_debian() {
 	git clean -fdx
 	git checkout "${debian_branch}-dev" -- ./debian
 	parse_debian_changelog
-	git add . -- ./debian
+	git add -- ./debian
 	git commit --author="${deb_maintainer} <${deb_email}>" \
             -m "Add debian files." -- ./debian
 	git branch -D "${debian_branch}-dev"
