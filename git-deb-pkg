@@ -2,7 +2,7 @@
 
 # git-deb-pkg --- 
 # Copyright © 2010 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2011-03-23 13:32:02
+# Last changed: 2011-03-24 10:36:28
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -143,8 +143,7 @@ function compute_debian_version() {
     test -z "${v_git_patchlevel}" || \
         v_package="${v_package}+git.${v_git_patchlevel}"
 
-
-    if test -n "${update_changelog}"; then
+    if test -n "${changelog_update}"; then
         # update debian revision if needed
 	dpkg --compare-versions "${v_package}" 'eq' "${v_debian_version}"
 	if test $? -eq 0; then
@@ -152,9 +151,16 @@ function compute_debian_version() {
 	else
             v_debian_revision=1
 	fi
+	deb_version="${v_package}-${v_debian_revision}"
+	deb_version_full="${v_epoch}:${v_package}-${v_debian_revision}"
+    else
+	deb_version="${v_debian_version}-${v_debian_revision}"
+	if test -n "${v_debian_epoch}"; then
+	    deb_version="${v_debian_version}-${v_debian_revision}"
+	else
+	    deb_version_full="${v_debian_epoch}:${deb_version}"
+	fi
     fi
-    deb_version="${v_package}-${v_debian_revision}"
-    deb_version_full="${v_epoch}:${v_package}-${v_debian_revision}"
 
     stamp_compute_debian_version=1
 }
@@ -398,6 +404,7 @@ function cmd_build() {
     test -n "${stamp_build}" && return
     cmd_update_debian_branch
     cmd_prepare
+    compute_debian_version
     update_debian_changelog
     cmd_prepare_orig
 
