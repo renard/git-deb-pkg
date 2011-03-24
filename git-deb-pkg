@@ -2,7 +2,7 @@
 
 # git-deb-pkg --- 
 # Copyright © 2010 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2011-03-24 10:36:28
+# Last changed: 2011-03-24 11:49:58
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -433,6 +433,10 @@ EOF
     git reset --hard
     git checkout ${current_branch}
     git branch -D ${build_branch}
+    if test -n "${stamp_prepare_orig}"; then
+	_msg "Cleaning original upstram archive from $(basename `pwd`).orig/"
+	rm -rf "$(basename `pwd`).orig/"
+    fi
     _msg "Build complete ;-)"
     stamp_build=1
 }
