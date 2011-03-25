@@ -269,5 +269,6 @@ assumption.
 
 == COPYRIGHT ==
 
-Copyright © 2010 Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>.
+Copyright © 2010 2011 Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>.
+
 Relased under WTFPL (http://sam.zoy.org/wtfpl/COPYING[]).
