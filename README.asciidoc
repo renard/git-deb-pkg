@@ -107,7 +107,7 @@ deb-pkg.revision-scheme::
 
   Regexp to extract version number from 'git describe'. The git patchlevel
   '-PL-gTREEISH' is cut off before the regexp is applied. Default:
-  's/^v-\(.\+\)$/\1/;s/[-]/./g'.
+  's/^v-\(.\+\)$/\1/;s/[-]/./g'. See UNDERSTANDING REVISION SCHEME.
 
 deb-pkg.cherrypick::
 
@@ -209,6 +209,35 @@ git svn fetch
 git merge upstream
 ----
 
+== UNDERSTANDING REVISION SCHEME ==
+
+  
+For example if the git tag is *v-1.2* and 5 commits before the *upstream*
+branch, 'git describe' would produce something like:
+
+----
+v-1.2-5-gddf4ca0
+----
+
+Where:
+
+- *v-1.2* is the current tag (understand upstram version)
+- *5* is the number of commits after the current tag. This is the patch
+   level ('PL')
+- *ddf5ca0* is the current commit ID prefixed with 'g'. This is the git
+   'TREEISH'.
+
+The regexp defined in 'deb-pkg.revision-scheme' variable is applied to the
+current tag ('v-1.2') and extracts the upstream version ('1.2').
+
+The Debian package version would thus be: '1:1.2+git.5-1' which means:
+
+- version 1.2 of the upstream
+- git patch level 5
+- debian package revision 1
+
+See the Debian policy manual, controle files and their fields, Version
+(http://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Version[])
 
 == SEE ALSO ==
 

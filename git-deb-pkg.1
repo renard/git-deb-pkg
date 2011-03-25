@@ -183,7 +183,7 @@ Regexp to extract version number from
 \fIgit describe\fR\&. The git patchlevel
 \fI\-PL\-gTREEISH\fR
 is cut off before the regexp is applied\&. Default:
-\fIs/^v\-\e(\&.\e+\e)$/\e1/;s/[\-]/\&./g\fR\&.
+\fIs/^v\-\e(\&.\e+\e)$/\e1/;s/[\-]/\&./g\fR\&. See UNDERSTANDING REVISION SCHEME\&.
 .RE
 .PP
 deb\-pkg\&.cherrypick
@@ -373,6 +373,101 @@ git merge upstream
 .RE
 .\}
 .RE
+.SH "UNDERSTANDING REVISION SCHEME"
+.sp
+For example if the git tag is \fBv\-1\&.2\fR and 5 commits before the \fBupstream\fR branch, \fIgit describe\fR would produce something like:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+v\-1\&.2\-5\-gddf4ca0
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+Where:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+
+\fBv\-1\&.2\fR
+is the current tag (understand upstram version)
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+
+\fB5\fR
+is the number of commits after the current tag\&. This is the patch level (\fIPL\fR)
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+
+\fBddf5ca0\fR
+is the current commit ID prefixed with
+\fIg\fR\&. This is the git
+\fITREEISH\fR\&.
+.RE
+.sp
+The regexp defined in \fIdeb\-pkg\&.revision\-scheme\fR variable is applied to the current tag (\fIv\-1\&.2\fR) and extracts the upstream version (\fI1\&.2\fR)\&.
+.sp
+The Debian package version would thus be: \fI1:1\&.2+git\&.5\-1\fR which means:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+version 1\&.2 of the upstream
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+git patch level 5
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+debian package revision 1
+.RE
+.sp
+See the Debian policy manual, controle files and their fields, Version (\m[blue]\fBhttp://www\&.debian\&.org/doc/debian\-policy/ch\-controlfields\&.html#s\-f\-Version\fR\m[])
 .SH "SEE ALSO"
 .sp
 .RS 4
