@@ -2,7 +2,7 @@
 
 # git-deb-pkg --- 
 # Copyright © 2010 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2011-03-24 11:49:58
+# Last changed: 2011-03-25 21:05:14
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -430,6 +430,8 @@ EOF
     # Cleanup build branch
     _msg "Returning to branch ${current_branch}"
     debuild clean
+    # remove debian auto patches
+    rm -rf debian/patches/debian-changes-*
     git reset --hard
     git checkout ${current_branch}
     git branch -D ${build_branch}
