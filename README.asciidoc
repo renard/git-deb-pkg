@@ -29,7 +29,7 @@ Features:
 -t DIR|--templates-dir DIR::
 
     Directory where the +debhelper+ files reside (default:
-    '/var/lib/git-deb-pkg/templates').
+    '/usr/share/git-deb-pkg/templates').
 
 -h|--help::
 
