@@ -2,12 +2,12 @@
 .\"     Title: git-deb-pkg
 .\"    Author: [see the "AUTHORS" section]
 .\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
-.\"      Date: 03/25/2011
+.\"      Date: 03/26/2011
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "GIT\-DEB\-PKG" "1" "03/25/2011" "\ \&" "\ \&"
+.TH "GIT\-DEB\-PKG" "1" "03/26/2011" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -285,7 +285,22 @@ Package could be built using debuild command:
 .RS 4
 .\}
 .nf
-debuild \-nc
+debuild \-\-no\-tgz\-check \-I\&.git \-i\*(Aq\e\&.git/\*(Aq
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+To cancel and return to previous branch (assuming it was \fImaster\fR) just run:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+debuild clean \e
+        && git reset \-\-hard \e
+        && git checkout master \e
+        && git branch \-D debian\-dev
 .fi
 .if n \{\
 .RE

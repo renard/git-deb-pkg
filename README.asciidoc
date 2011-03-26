@@ -164,7 +164,16 @@ git deb-pkg init-debian
 Package could be built using +debuild+ command:
 
 ----
-debuild -nc
+debuild --no-tgz-check -I.git -i'\.git/'
+----
+
+To cancel and return to previous branch (assuming it was 'master') just run:
+
+----
+debuild clean \
+	&& git reset --hard \
+	&& git checkout master \
+	&& git branch -D debian-dev
 ----
 
 Then a few files in the './debian' directory have to be updated, and commited:
