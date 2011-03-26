@@ -3,7 +3,7 @@ Section: unknown
 Priority: extra
 Maintainer: #USERNAME# <#EMAIL#>
 Build-Depends: debhelper (>= 7.0.50), quilt (>=0.46-7)
-Standards-Version: 
+Standards-Version: 3.8.0
 Homepage: <insert the upstream URL, if relevant>
 
 Package: #PACKAGE#
