@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # git-deb-pkg --- 
-# Copyright © 2010 2011 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2011-03-25 23:25:41
+# Copyright © 2010 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
+# Last changed: 2011-04-28 14:17:48
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -38,10 +38,12 @@ current_branch=$(git branch | sed -n 's/^\* \(.\+\)$/\1/p')
 v_git_version=
 v_git_patchlevel=
 v_git_commit=
+v_upstream=
 # debian version
 v_debian_epoch=
 v_debian_version=
 v_debian_revision=
+v_package=
 #debian changelog
 deb_src_package=
 deb_distribution=
@@ -81,13 +83,20 @@ function parse_git_version() {
     # parse version from git tags
     # if no tag is found then use date as version
     v_git_version=$(git describe ${upstream_branch} --tags 2> /dev/null \
-	|| date +%Y%M%d)
+	|| date +%Y%m%d)
     v_git_patchlevel=$(echo "${v_git_version}" | \
         sed -n 's/^.*-\([0-9]\+\)-g[0-9a-f]\+$/\1/p')
     # remove git patchlevel and commit id
     v_git_version=$(echo "${v_git_version}" \
 	| sed "s/^\(.*\)-${v_git_patchlevel}-g[0-9a-f]\+$/\1/")
     v_git_commit=$(git log --pretty="format:%h" -n1 ${upstream_branch})
+
+    # compute ustream version
+    v_upstream="${v_git_version}"
+    if ! test -z "${revision_scheme}"; then
+        v_upstream=$(echo "${v_upstream}" | sed "${revision_scheme}")
+    fi
+
     stamp_parse_git_version=1
 }
 
@@ -103,6 +112,7 @@ function parse_debian_changelog() {
 	    $(git rev-parse ${debian_branch}) debian/changelog | \
 	    awk '{print $3}') | dpkg-parsechangelog -l-)
     fi
+
     deb_version=$(echo "${changelog}" | sed -n 's/^Version: \(.*\)/\1/p')
     deb_src_package=$(echo "${changelog}" | sed -n 's/^Source: \(.*\)/\1/p')
     deb_distribution=$(echo "${changelog}" | sed -n 's/^Distribution: \(.*\)/\1/p')
@@ -116,6 +126,7 @@ function parse_debian_changelog() {
 # Compute debian version
 function compute_debian_version() {
     test -n "${stamp_compute_debian_version}" && return
+    
     parse_git_version
     parse_debian_changelog
 
@@ -131,13 +142,8 @@ function compute_debian_version() {
         sed -n "s/^[[:space:]]\+'revision' => '\([^']\+\)'.*\$/\1/p")
 
 
-    # compute ustream version
-    local v_upstream="${v_git_version}"
-    if ! test -z "${revision_scheme}"; then
-        v_upstream=$(echo "${v_upstream}" | sed "${revision_scheme}")
-    fi
 
-    local v_package="${v_upstream}"
+    v_package="${v_upstream}"
     local v_epoch=$(echo "${v_upstream}" | cut -f1 -d.)
 
     test -z "${v_git_patchlevel}" || \
@@ -250,6 +256,8 @@ upstream (branch ${upstream_branch}):
  - commit          : ${v_git_commit}
  - version         : ${v_git_version}
  - patchlevel      : ${v_git_patchlevel}
+ - upstream        : ${v_upstream}
+ - package         : ${v_package}
 
 debian (branch ${debian_branch}):
  - maintainer      : ${deb_maintainer} <${deb_email}>
@@ -392,10 +400,11 @@ function cmd_prepare() {
 # Prepare orig
 function cmd_prepare_orig() {
     test -n "${stamp_prepare_orig}" && return
+    parse_git_version
 
     _msg "Preparition upstream original archive from ${upstream_branch}"
     git archive --format=tar --prefix="$(basename `pwd`).orig/" \
-	${upstream_branch} | tar -C .. -xf -
+	${upstream_branch} | gzip > "../$(basename `pwd`)_${v_package}.orig.tar.gz"
     stamp_prepare_orig=1
 }
 
