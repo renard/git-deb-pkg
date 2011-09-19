@@ -2,7 +2,7 @@
 
 # git-deb-pkg --- 
 # Copyright © 2010 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2011-09-19 11:27:45
+# Last changed: 2011-09-19 11:56:56
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -355,7 +355,7 @@ function print_return() {
 
 To return to ${current_branch} run following commands:
 
- debuild clean && \
+ debuild -d clean && \
  git reset --hard && \
  git checkout ${current_branch} ${st}&& \
  git branch -D ${build_branch}
@@ -412,7 +412,7 @@ function cleanup_build() {
     test -n "${stamp_cleanup_build}" && return
     # Cleanup build branch
     _msg "Returning to branch ${current_branch}"
-    debuild clean
+    debuild -d clean
     # remove debian auto patches
     rm -rf debian/patches/debian-changes-*
     git reset --hard
