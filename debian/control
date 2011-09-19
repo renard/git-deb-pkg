@@ -9,7 +9,7 @@ Homepage: http://github.com/renard/git-deb-pkg
 Package: git-deb-pkg
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends}, git-core,
-	 dh-make, devscripts
+	 dh-make, devscripts, fakeroot
 Description: lazy way to build Debian package using git
  git-deb-pkg offers a simple and easy way to manage Debian package
  generation using git (and other source code management system).
