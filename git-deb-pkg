@@ -2,7 +2,7 @@
 
 # git-deb-pkg --- 
 # Copyright © 2010 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2011-04-28 14:17:48
+# Last changed: 2011-09-19 11:18:47
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -408,6 +408,25 @@ function cmd_prepare_orig() {
     stamp_prepare_orig=1
 }
 
+function cleanup_build() {
+    test -n "${stamp_cleanup_build}" && return
+    # Cleanup build branch
+    _msg "Returning to branch ${current_branch}"
+    debuild clean
+    # remove debian auto patches
+    rm -rf debian/patches/debian-changes-*
+    git reset --hard
+    git checkout ${current_branch}
+    git branch -D ${build_branch}
+    if test -n "${stamp_prepare_orig}"; then
+	_msg "Cleaning original upstram archive from $(basename `pwd`).orig/"
+	rm -rf "$(basename `pwd`).orig/"
+    fi
+    stamp_cleanup_build=1
+}
+
+
+
 # Build
 function cmd_build() {
     test -n "${stamp_build}" && return
@@ -436,21 +455,31 @@ EOF
 	die "/!\\ BUILD FAILED /!\\"
     fi
 
-    # Cleanup build branch
-    _msg "Returning to branch ${current_branch}"
-    debuild clean
-    # remove debian auto patches
-    rm -rf debian/patches/debian-changes-*
-    git reset --hard
-    git checkout ${current_branch}
-    git branch -D ${build_branch}
-    if test -n "${stamp_prepare_orig}"; then
-	_msg "Cleaning original upstram archive from $(basename `pwd`).orig/"
-	rm -rf "$(basename `pwd`).orig/"
-    fi
+    cleanup_build
     _msg "Build complete ;-)"
     stamp_build=1
 }
+
+
+
+# Build
+function cmd_source() {
+    test -n "${stamp_source}" && return
+    cmd_update_debian_branch
+    cmd_prepare
+    compute_debian_version
+    update_debian_changelog
+    cmd_prepare_orig
+
+    _msg "Building ${deb_src_package} ${deb_version_full}"
+    debuild -I.git -i'\.git/' -S
+
+    cleanup_build
+    _msg "Source build complete ;-)"
+    stamp_source=1
+}
+
+
 
 
 function usage() {
@@ -483,6 +512,7 @@ Commands:
   init-debian                       Init debian directory.
   commit-debian                     Commit the debian directory.
   build                             Build debian package.
+  source                            Only build source packages.
   show-version                      Show all versions for the package.
   update-upstream                   Update upstream branch.
   prepare                           Prepare building environment.
@@ -496,7 +526,7 @@ EOF
 command=
 while test $# != 0 && test -z "${command}"; do
     case "$1" in
-	init-debian|build|commit-debian|show-version|update-upstream|prepare|prepare-orig)
+	init-debian|build|source|commit-debian|show-version|update-upstream|prepare|prepare-orig)
 	    command=$1;;
 	-t|--templates-dir)
 	    test -z "$2" && die "Need a parameter for $1."

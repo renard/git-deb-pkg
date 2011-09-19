@@ -2,12 +2,12 @@
 .\"     Title: git-deb-pkg
 .\"    Author: [see the "AUTHORS" section]
 .\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
-.\"      Date: 03/26/2011
+.\"      Date: 09/19/2011
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "GIT\-DEB\-PKG" "1" "03/26/2011" "\ \&" "\ \&"
+.TH "GIT\-DEB\-PKG" "1" "09/19/2011" "\ \&" "\ \&"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -136,6 +136,11 @@ Commit the debian directory\&.
 build
 .RS 4
 Build debian package\&.
+.RE
+.PP
+source
+.RS 4
+Build debian source package only\&.
 .RE
 .PP
 show\-version
@@ -331,6 +336,19 @@ git deb\-pkg build
 .if n \{\
 .RE
 .\}
+.SS "build the source package"
+.sp
+To build the source package from any branch, just type:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+git deb\-pkg source
+.fi
+.if n \{\
+.RE
+.\}
 .SS "publish package"
 .sp
 This step is not mandatory unless you wish to publish your work:
@@ -511,6 +529,11 @@ debhelper
 manpages\&.
 .RE
 .SH "HISTORY"
+.PP
+2011/09/19
+.RS 4
+Add source command\&.
+.RE
 .PP
 2011/03/23
 .RS 4

@@ -67,6 +67,10 @@ build::
 
     Build debian package.
 
+source::
+
+    Build debian source package only.
+
 show-version::
 
     Show all versions for the package.
@@ -191,6 +195,15 @@ To build the package from any branch, just type:
 git deb-pkg build
 ----
 
+=== build the source package ===
+
+To build the source package from any branch, just type:
+
+----
+git deb-pkg source
+----
+
+
 === publish package ===
 
 This step is not mandatory unless you wish to publish your work:
@@ -254,6 +267,11 @@ See the Debian policy manual, controle files and their fields, Version
 - +debhelper+ manpages.
 
 == HISTORY ==
+
+
+2011/09/19::
+
+  Add source command.
 
 2011/03/23::
 
