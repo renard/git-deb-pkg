@@ -269,6 +269,10 @@ See the Debian policy manual, controle files and their fields, Version
 == HISTORY ==
 
 
+2011/12/09::
+
+  Fix Dpkg::Version invocation.
+
 2011/09/19::
 
   Add source command.
@@ -298,4 +302,4 @@ assumption.
 
 Copyright © 2010 2011 Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>.
 
-Relased under WTFPL (http://sam.zoy.org/wtfpl/COPYING[]).
+Relesed under WTFPL (http://sam.zoy.org/wtfpl/COPYING[]).
