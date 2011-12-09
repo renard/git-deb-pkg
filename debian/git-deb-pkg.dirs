@@ -1,2 +1,2 @@
-usr/lib/git-deb-pkg
-usr/share/git-core
+usr/lib/git-core
+usr/share/git-deb-pkg
