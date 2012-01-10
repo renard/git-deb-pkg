@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # git-deb-pkg --- 
-# Copyright © 2010 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2011-12-09 14:57:08
+# Copyright © 2010-2012 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
+# Last changed: 2012-01-10 09:59:45
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -10,7 +10,7 @@
 # To Public License, Version 2, as published by Sam Hocevar. See
 # http://sam.zoy.org/wtfpl/COPYING for more details.
 
-VERSION="1.4"
+VERSION="1.5"
 
 verbose=
 
@@ -171,6 +171,19 @@ function compute_debian_version() {
     stamp_compute_debian_version=1
 }
 
+function cmd_set_defaults() {
+    test -n "${stamp_set_defaults}" && return
+
+    # Store some git variables
+    git config --get deb-pkg.scm 2>&1 >/dev/null || git config --add deb-pkg.scm ${scm}
+    git config --get deb-pkg.upstream 2>&1 >/dev/null || git config --add deb-pkg.upstream ${upstream_branch}
+    git config --get deb-pkg.debian 2>&1 >/dev/null || git config --add deb-pkg.debian ${debian_branch}
+    git config --get deb-pkg.revision-scheme 2>&1 >/dev/null || git config --add deb-pkg.revision-scheme ${revision_scheme}
+
+    stamp_set_defaults=1
+}
+
+
 # Init debian
 function cmd_init_debian() {
     test -n "${stamp_init_debian}" && return
@@ -196,11 +209,7 @@ function cmd_init_debian() {
     mv "../${src}-${ver}" "../${src}"
     cd "../${src}"
 
-    # Store some git variables
-    git config --get deb-pkg.scm 2>&1 >/dev/null || git config --add deb-pkg.scm ${scm}
-    git config --get deb-pkg.upstream 2>&1 >/dev/null || git config --add deb-pkg.upstream ${upstream_branch}
-    git config --get deb-pkg.debian 2>&1 >/dev/null || git config --add deb-pkg.debian ${debian_branch}
-    git config --get deb-pkg.revision-scheme 2>&1 >/dev/null || git config --add deb-pkg.revision-scheme ${revision_scheme}
+    cmd_set_defaults
 
     _msg "Debian environment prepared"
     cat<<EOF
@@ -486,7 +495,7 @@ function usage() {
     exit_code=${1:-1}
     cat <<EOF
 $(basename $0) Version ${VERSION}
-Copyright © 2010 Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
+Copyright © 2010-2012 Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
     
 $(basename $0) [ options ]
     
@@ -510,6 +519,7 @@ Git Options:
 Commands:
 
   init-debian                       Init debian directory.
+  set-defaults                      Set default values.
   commit-debian                     Commit the debian directory.
   build                             Build debian package.
   source                            Only build source packages.
@@ -526,7 +536,7 @@ EOF
 command=
 while test $# != 0 && test -z "${command}"; do
     case "$1" in
-	init-debian|build|source|commit-debian|show-version|update-upstream|prepare|prepare-orig)
+	init-debian|set-defaults|build|source|commit-debian|show-version|update-upstream|prepare|prepare-orig)
 	    command=$1;;
 	-t|--templates-dir)
 	    test -z "$2" && die "Need a parameter for $1."

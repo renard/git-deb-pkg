@@ -59,6 +59,10 @@ init-debian::
 
     Init debian directory.
 
+set-defaults::
+
+    Sets default options to git configuration.
+
 commit-debian::
 
     Commit the debian directory.
@@ -268,6 +272,9 @@ See the Debian policy manual, controle files and their fields, Version
 
 == HISTORY ==
 
+2012/01/10::
+
+  Add set-defaults option.
 
 2011/12/09::
 
@@ -300,6 +307,6 @@ assumption.
 
 == COPYRIGHT ==
 
-Copyright © 2010 2011 Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>.
+Copyright © 2010-2012 Sébastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>.
 
 Relesed under WTFPL (http://sam.zoy.org/wtfpl/COPYING[]).
