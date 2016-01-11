@@ -2,7 +2,7 @@
 
 # git-deb-pkg --- 
 # Copyright © 2010-2012 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2012-01-10 09:59:45
+# Last changed: 2016-01-11 14:28:11
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -420,7 +420,8 @@ function cmd_prepare() {
 function cmd_prepare_orig() {
     test -n "${stamp_prepare_orig}" && return
     parse_git_version
-
+    compute_debian_version
+    
     _msg "Preparition upstream original archive from ${upstream_branch}"
     git archive --format=tar --prefix="$(basename `pwd`).orig/" \
 	${upstream_branch} | gzip > "../$(basename `pwd`)_${v_package}.orig.tar.gz"
@@ -451,8 +452,8 @@ function cleanup_build() {
 function cmd_build() {
     test -n "${stamp_build}" && return
     cmd_update_debian_branch
-    cmd_prepare
     compute_debian_version
+    cmd_prepare
     update_debian_changelog
     cmd_prepare_orig
 
@@ -486,8 +487,8 @@ EOF
 function cmd_source() {
     test -n "${stamp_source}" && return
     cmd_update_debian_branch
-    cmd_prepare
     compute_debian_version
+    cmd_prepare
     update_debian_changelog
     cmd_prepare_orig
 
