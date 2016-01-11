@@ -398,7 +398,16 @@ function cmd_prepare() {
     # change the version number in the configure file
     for f in configure.ac; do
 	test -f $f || continue
+	if ! test -d debian/patches; then
+	    mkdir -p debian/patches
+	fi
 	sed -i "s/^\(AC_INIT(\[[^]]\+\], *\[\)[^]]\+\(\], *\[[^]]\+\])\)\$/\1${v_git_version} git:${v_git_commit} debian:${deb_version_full}\2/" $f
+	# We generate a patch since quilt raises an error if archive is not
+	# pristine.
+	patch_file=9999-git-deb-pkg-$f.patch
+	git diff $f > debian/patches/$patch_file
+	echo $patch_file >> debian/patches/series
+	git checkout $f
     done
 
     update_debian_changelog
