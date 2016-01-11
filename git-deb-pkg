@@ -163,6 +163,7 @@ function compute_debian_version() {
 	deb_version="${v_debian_version}-${v_debian_revision}"
 	if test -n "${v_debian_epoch}"; then
 	    deb_version="${v_debian_version}-${v_debian_revision}"
+	    deb_version_full="${deb_version}"
 	else
 	    deb_version_full="${v_debian_epoch}:${deb_version}"
 	fi
