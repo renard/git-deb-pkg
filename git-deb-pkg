@@ -435,6 +435,7 @@ function cleanup_build() {
     # remove debian auto patches
     rm -rf debian/patches/debian-changes-*
     git reset --hard
+    rm -f debian/patches/9999-git-deb-pkg*.patch
     git checkout ${current_branch}
     git branch -D ${build_branch}
     if test -n "${stamp_prepare_orig}"; then
