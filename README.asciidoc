@@ -272,6 +272,10 @@ See the Debian policy manual, controle files and their fields, Version
 
 == HISTORY ==
 
+2016/01/11::
+
+  Create debian patch when modifing +autoconf.ac+
+
 2012/01/10::
 
   Add set-defaults option.
