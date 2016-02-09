@@ -1,0 +1,23 @@
+  /Users/renard/Src/git-deb-pkg/templates:
+  total used in directory 168 available 153209251
+  drwxr-xr-x  20 renard  staff   680 Feb  9 14:01 .
+  drwxr-xr-x   9 renard  staff   306 Feb  5 13:58 ..
+  -rw-r--r--   1 renard  staff   135 Jan 11 14:27 README.Debian
+  -rw-r--r--   1 renard  staff   237 Feb  9 13:55 README.source
+  -rw-r--r--   1 renard  staff   103 Jan 11 14:27 changelog
+  -rw-r--r--   1 renard  staff     2 Jan 11 14:27 compat
+  -rw-r--r--   1 renard  staff   489 Feb  9 14:01 control
+  -rw-r--r--   1 renard  staff  1241 Jan 11 14:27 copyright
+  -rw-r--r--   1 renard  staff   137 Jan 11 14:27 package.cron.d
+  -rw-r--r--   1 renard  staff   241 Jan 11 14:27 package.default
+  -rw-r--r--   1 renard  staff    17 Jan 11 14:27 package.dirs
+  -rwxr-xr-x   1 renard  staff  4582 Feb  9 13:59 package.init.d
+  -rw-r--r--   1 renard  staff  9259 Jan 11 14:27 package.init.lsb.d
+  -rw-r--r--   1 renard  staff    43 Jan 11 14:27 package.lintian-overrides
+  -rwxr-xr-x   1 renard  staff  1324 Jan 11 14:27 package.postinst
+  -rwxr-xr-x   1 renard  staff  1035 Jan 11 14:27 package.postrm
+  -rw-r--r--   1 renard  staff   694 Jan 11 14:27 package.preinst
+  -rw-r--r--   1 renard  staff   881 Jan 11 14:27 package.prerm
+  drwxr-xr-x   2 renard  staff    68 Feb  9 14:10 source
+  -rwxr-xr-x   1 renard  staff   374 Feb  9 14:01 rules
+  -rw-r--r--   1 renard  staff    51 Jan 11 14:27 source.lintian-overrides

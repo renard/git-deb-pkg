@@ -1,10 +1,19 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 
-# Uncomment this to turn on verbose mode.
+PACKAGE=#PACKAGE#
+PACKAGEDIR=debian/$(PACKAGE)
+
+# See debhelper(7) (uncomment to enable)
+# output every command that modifies files on the build system.
 # export DH_VERBOSE=1
 
-# to run with quilt use this instead:
-# dh  --with quilt $@
+#RULES_START_TEXT#
 %:
-	dh $*
+        # if using cmake with definition in a specific directory (build):
+        # dh $@ --sourcedirectory=build
+        #
+        # to run with quilt use this instead:
+        # dh  --with quilt $@
+	dh $@ #DH7_ADDON#
+#RULES_END_TEXT#
