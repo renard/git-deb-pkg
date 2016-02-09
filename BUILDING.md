@@ -6,6 +6,6 @@ First you need to clone the sources:
 
 Then simply run:
 
-	./git-deb-pkg -U -C build
+	./git-deb-pkg -U -C -d origin/debian build
 
 Enjoy!
