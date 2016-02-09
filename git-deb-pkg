@@ -2,7 +2,7 @@
 
 # git-deb-pkg --- 
 # Copyright © 2010-2012 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2016-02-05 13:58:41
+# Last changed: 2016-02-09 14:45:31
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -145,7 +145,13 @@ function compute_debian_version() {
     local v_debian_revision=$(echo "${_debian_version}" | \
         sed -n "s/^[[:space:]]\+'revision' => '\([^']\+\)'.*\$/\1/p")
 
-
+#     cat<<EOF
+# Debian changelog:
+#   - _debian_version:   ${_debian_version}
+#   - v_debian_epoch:    ${v_debian_epoch}
+#   - v_debian_version:  ${v_debian_version}
+#   - v_debian_revision: ${v_debian_revision}
+# EOF
 
     v_package="${v_upstream}"
     local v_epoch=$(echo "${v_upstream}" | cut -f1 -d.)
