@@ -2,7 +2,7 @@
 
 # git-deb-pkg --- 
 # Copyright © 2010-2012 Sebastien Gross <seb•ɑƬ•chezwam•ɖɵʈ•org>
-# Last changed: 2016-01-11 14:31:42
+# Last changed: 2016-02-05 13:58:41
 
 # This program is free software. It comes without any warranty, to
 # the extent permitted by applicable law. You can redistribute it
@@ -18,7 +18,11 @@ upstream_update=1
 changelog_update=1
 
 # git variables
-upstream_branch=$(git config --get deb-pkg.upstream || echo -n "upstream")
+upstream_branch=$(git config --get deb-pkg.upstream)
+if test -z "${upstream_branch}"; then
+    upstream_branch=$(git rev-parse --verify upstream >/dev/null 2>&1 && \
+			  echo -n "upstream" || echo -n "master")
+fi
 debian_branch=$(git config --get deb-pkg.debian || echo -n "debian")
 revision_scheme=$(git config --get deb-pkg.revision-scheme || echo -n 's/^v\(.\+\)$/\1/;s/[-]/./g')
 templates_dir=$(git config --get deb-pkg.templates-dir || echo -n "/usr/share/git-deb-pkg/templates")
